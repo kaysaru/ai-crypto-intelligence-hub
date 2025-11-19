@@ -1,0 +1,25 @@
+{
+  "name": "crypto-intelligence-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multi-agent crypto analysis platform with RAG",
+  "scripts": {
+    "dev": "pnpm --parallel --stream dev",
+    "build": "pnpm -r build",
+    "clean": "pnpm -r clean",
+    "db:migrate": "pnpm --filter backend db:migrate",
+    "db:seed": "pnpm --filter backend db:seed",
+    "db:studio": "pnpm --filter backend db:studio"
+  },
+  "keywords": [
+    "crypto",
+    "ai",
+    "multi-agent",
+    "rag",
+    "langgraph"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
