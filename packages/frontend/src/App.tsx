@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { trpc } from './lib/trpc';
 import { io, Socket } from 'socket.io-client';
+import ReactMarkdown from 'react-markdown';
 
 function AppContent() {
   const [crypto, setCrypto] = useState('BTC');
@@ -177,7 +178,22 @@ function AppContent() {
                   <p><strong>Action:</strong> {report.recommendations?.action?.toUpperCase() || 'N/A'}</p>
                   <p><strong>Risk Level:</strong> {report.recommendations?.riskLevel || 'N/A'}</p>
                   <div className="mt-2 p-3 bg-background rounded">
-                    <p className="text-xs whitespace-pre-wrap">{report.recommendations?.reasoning?.substring(0, 500)}...</p>
+                    <ReactMarkdown
+                        components={{
+                          h1: ({ node, ...props }) => <h1 className="text-2xl font-bold mt-6 mb-4" {...props} />,
+                          h2: ({ node, ...props }) => <h2 className="text-xl font-bold mt-5 mb-3" {...props} />,
+                          h3: ({ node, ...props }) => <h3 className="text-lg font-semibold mt-4 mb-2" {...props} />,
+                          p: ({ node, ...props }) => <p className="mb-3 leading-relaxed" {...props} />,
+                          ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-3 space-y-1" {...props} />,
+                          ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-3 space-y-1" {...props} />,
+                          li: ({ node, ...props }) => <li className="ml-4" {...props} />,
+                          strong: ({ node, ...props }) => <strong className="font-semibold text-primary" {...props} />,
+                          code: ({ node, ...props }) => <code className="bg-muted px-1.5 py-0.5 rounded text-sm" {...props} />,
+                          blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary pl-4 italic my-4" {...props} />,
+                        }}
+                    >
+                      {report.recommendations?.reasoning}
+                    </ReactMarkdown>
                   </div>
                 </div>
               </div>
