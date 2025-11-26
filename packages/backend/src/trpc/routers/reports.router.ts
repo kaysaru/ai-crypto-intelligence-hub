@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../router';
+import { router, publicProcedure } from '../procedures';
 import { reports, analyses } from '../../db';
 import { desc, eq } from 'drizzle-orm';
 

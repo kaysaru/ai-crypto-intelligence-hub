@@ -1,8 +1,9 @@
 import { z } from 'zod';
-import { router, publicProcedure } from '../router';
+import { router, publicProcedure } from '../procedures';
 import { analyses, agentMessages } from '../../db';
 import { desc, eq } from 'drizzle-orm';
 import { createAnalysisSchema } from '@crypto-intel/shared';
+import { AnalysisWorkflow } from '../../workflows/analysis-workflow';
 
 export const analysisRouter = router({
   // Create new analysis
@@ -22,7 +23,12 @@ export const analysisRouter = router({
       // Emit WebSocket event
       ctx.io.emit('analysis:started', { analysisId: analysis.id });
 
-      // TODO: Trigger LangGraph workflow here
+      // Trigger workflow asynchronously
+      const workflow = new AnalysisWorkflow(ctx.io);
+      workflow.execute(analysis.id, input.cryptocurrency).catch((error) => {
+        console.error('Workflow execution error:', error);
+      });
+
       console.log(`Analysis ${analysis.id} created for ${input.cryptocurrency}`);
 
       return analysis;

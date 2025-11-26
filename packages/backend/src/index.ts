@@ -17,15 +17,13 @@ const httpServer = createServer(app);
 // Initialize Socket.io
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 });
 
 // Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-}));
+app.use(cors());
 app.use(express.json());
 
 // Health check endpoint
